@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{index :: head}"></head>
+<body>
+    <nav th:insert="~{index :: navbar}"></nav>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+
+                <!-- Alert credenziali errate -->
+                <div th:if="${param.error}">
+                    <div class="alert alert-danger">Email o Password non validi</div>
+                </div>
+
+                <!-- Alert avvenuto logout -->
+                <div th:if="${param.logout}">
+                    <div class="alert alert-success">Disconnessione effettuata con successo</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center">Accedi</h2>
+                    </div>
+
+                    <div class="card-body">
+                        <form method="post" role="form" th:action="@{/login}" class="form-horizontal">
+                            
+                            <!-- Email (name="username" necessario per Spring Security) -->
+                            <div class="form-group mb-3">
+                                <label class="control-label">Email</label>
+                                <input type="text" id="username" name="username" class="form-control" placeholder="Inserisci il tuo indirizzo email"/>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="form-group mb-3">
+                                <label class="control-label">Password</label>
+                                <input type="password" id="password" name="password" class="form-control" placeholder="Inserisci la password"/>
+                            </div>
+
+                            <!-- Pulsante Accedi & Link Registrazione -->
+                            <div class="form-group mb-3">
+                                <button type="submit" class="btn btn-primary">Accedi</button>
+                                <span class="ms-2">Non sei ancora registrato? <a th:href="@{/register}">Registrati qui</a></span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <head th:insert="~{index :: footer}"></head>
+    <script th:replace="~{index :: bootstrapScript}"></script>
+</body>
+</html>

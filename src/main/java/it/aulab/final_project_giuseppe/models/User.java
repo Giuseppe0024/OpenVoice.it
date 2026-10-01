@@ -17,13 +17,16 @@ import java.util.List;
 public class User {
 
     @Id 
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column (nullable = false) 
+
+    @Column(nullable = false) 
     private String username;
-    @Column (nullable = false, unique = true)
+
+    @Column(nullable = false, unique = true)
     private String email;
-    @Column (nullable = false)
+
+    @Column(nullable = false)
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL) 

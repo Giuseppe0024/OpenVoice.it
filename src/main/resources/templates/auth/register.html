@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{index :: head}"></head>
+<body>
+    <nav th:insert="~{index :: navbar}"></nav>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center">Registrazione</h2>
+                    </div>
+                    
+                    <!-- Messaggio di avvenuta registrazione -->
+                    <div th:if="${param.success}">
+                        <div class="alert alert-info">
+                            Ti sei registrato con successo alla piattaforma!
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <form method="post" role="form" th:action="@{/register/save}" th:object="${user}">
+                            
+                            <!-- Nome -->
+                            <div class="form-group mb-3">
+                                <label class="form-label">Nome</label>
+                                <input class="form-control" id="firstName" name="firstName" placeholder="Inserisci il tuo nome" th:field="*{firstName}" type="text"/>
+                                <p th:errors="*{firstName}" class="text-danger" th:if="${#fields.hasErrors('firstName')}"></p>
+                            </div>
+                            
+                            <!-- Cognome -->
+                            <div class="form-group mb-3">
+                                <label class="form-label">Cognome</label>
+                                <input class="form-control" id="lastName" name="lastName" placeholder="Inserisci il tuo cognome" th:field="*{lastName}" type="text"/>
+                                <p th:errors="*{lastName}" class="text-danger" th:if="${#fields.hasErrors('lastName')}"></p>
+                            </div>
+                            
+                            <!-- Email -->
+                            <div class="form-group mb-3">
+                                <label class="form-label">Email</label>
+                                <input class="form-control" id="email" name="email" placeholder="Inserisci l'indirizzo email" th:field="*{email}" type="email"/>
+                                <p th:errors="*{email}" class="text-danger" th:if="${#fields.hasErrors('email')}"></p>
+                            </div>
+                            
+                            <!-- Password -->
+                            <div class="form-group mb-3">
+                                <label class="form-label">Password</label>
+                                <input class="form-control" id="password" name="password" placeholder="Inserisci la password" th:field="*{password}" type="password"/>
+                                <p th:errors="*{password}" class="text-danger" th:if="${#fields.hasErrors('password')}"></p>
+                            </div>
+                            
+                            <!-- Pulsante Registrati & Link Login -->
+                            <div class="form-group mb-3">
+                                <button class="btn btn-primary" type="submit">Registrati</button>
+                                <span class="ms-2">Sei già registrato? <a th:href="@{/login}">Accedi qui</a></span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <head th:insert="~{index :: footer}"></head>
+    <script th:replace="~{index :: bootstrapScript}"></script>
+</body>
+</html>

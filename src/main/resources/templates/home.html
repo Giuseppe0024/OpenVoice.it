@@ -7,6 +7,16 @@ xmlns:th="http://www.thymeleaf.org"
 
     <head th:insert="~{index :: navbar}"></head>
 
+    <div th:if="${param.nothAuthorized}">
+        <div class="alert alert-danger">
+            Non autorizzato!
+        </div>
+    </div>
+
+    <div th:if="${successMessage}" class="alert alert-success">
+        <p th:text="${successMessage}"></p>
+    </div>
+
     <div class="container-fluid">
         <div class="row ms-5 vh-100 align-items-center">
             <div class="col-10">
