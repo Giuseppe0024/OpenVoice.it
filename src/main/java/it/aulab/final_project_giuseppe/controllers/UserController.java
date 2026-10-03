@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.aulab.final_project_giuseppe.services.ArticleService;
+import it.aulab.final_project_giuseppe.services.CategoryService;
 import it.aulab.final_project_giuseppe.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 import it.aulab.final_project_giuseppe.models.User;
+import it.aulab.final_project_giuseppe.repositories.CareerRequestRepository;
 import it.aulab.final_project_giuseppe.dtos.ArticleDto;
 import it.aulab.final_project_giuseppe.dtos.UserDto;
 
@@ -31,7 +33,14 @@ public class UserController {
     @Autowired 
     private UserService userService;
 
-    @Autowired private ArticleService articleService;
+    @Autowired 
+    private ArticleService articleService;
+
+    @Autowired 
+    private CareerRequestRepository careerRequestRepository;
+
+    @Autowired 
+    private CategoryService categoryService;
 
     // Rotta di home
     @GetMapping
@@ -101,5 +110,14 @@ public class UserController {
         viewModel.addAttribute("article", articles);
 
         return "article/articles";
+    }
+
+    //Rotta per la dashboard dell'admin
+    @GetMapping("/admin/dashboard")
+    public String adminDashboard(Model viewModel) {
+        viewModel.addAttribute("title", "Richieste ricevute");
+        viewModel.addAttribute("requests", careerRequestRepository.findByIsCheckedFalse());
+        viewModel.addAttribute("categories", categoryService.readAll());
+        return "admin/dashboard";
     }
 }

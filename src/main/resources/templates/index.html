@@ -28,6 +28,15 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/articles">Tutti gli articoli</a>
                     </li>
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <div class="d-flex">
+                            <a class="nav-link" href="/admin/dashboard">Dashboard Admin</a>
+                            <div class="mt-1" th:if="${careerRequests > 0}">
+                                <i class="fas fa-bell fa-1 pt-2"></i>
+                                <span class="badge rounded-pill bg-danger text-white px-1" th:text="${careerRequests}"></span>
+                            </div>
+                        </div>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="">Link</a>
                     </li>
@@ -63,12 +72,12 @@
                 </div>
                 <div class="col-md-4 mb-3 text-end">
                     <h5>Lavora con noi</h5>
-                    <a href="#" class="btn btn-primary">Candidati</a>
+                    <a th:href="@{/operations/career/request}" class="btn btn-primary">Candidati</a>
                 </div>
             </div>
         </div>
         <div class="bg-secondary text-center py-2 mt-3">
-            <p class="mb-0 text-white small">&copy; 2026 The Aulab Chronicle. Tutti i diritti riservati.</p>
+            <p class="mb-0 text-white small">&copy; 2026 Pepito Chronicle. Tutti i diritti riservati.</p>
         </div>
     </footer>
 
