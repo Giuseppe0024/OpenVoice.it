@@ -28,11 +28,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
+            .csrf(csrf -> csrf.disable()) // attivare la protezione CSRF se dovesse andare in produzione
             .authorizeHttpRequests((authorize) ->
                 authorize.requestMatchers("/register/**").permitAll()
-                        .requestMatchers("/admin/dashboard", "/categories/create", "/categories/edit/{id}", "/categories/update/{id}", "/categories/delete/{id}").hasRole("ADMIN")
-                        .requestMatchers("/register", "/", "/articles", "/images/**", "/articles/detail/**", "/categories/search/{id}", "/search/{id}").permitAll()
+                        .requestMatchers("/admin/dashboard", "/categories/create", "/categories/edit/{id}", "/categories/update/{id}", "/categories/delete/{id}", "/operations/career/request/detail/**", "/operations/career/request/accept/**").hasRole("ADMIN")
+                        .requestMatchers("/revisor/dashboard", "/articles/revisor/detail/**", "/articles/accept").hasRole("REVISOR")
+                        .requestMatchers("/writer/dashboard", "/articles/create", "/articles/edit/{id}", "/articles/update/{id}", "/articles/delete/{id}").hasRole("WRITER")
+                        .requestMatchers("/register", "/", "/articles", "/images/**", "/articles/detail/**", "/categories/search/{id}", "/search/{id}", "/articles/search").permitAll()
                         .anyRequest().authenticated()
             )
             .formLogin(form ->

@@ -10,6 +10,7 @@ import it.aulab.final_project_giuseppe.models.CareerRequest;
 
 public interface CareerRequestRepository extends CrudRepository<CareerRequest, Long>{
     List<CareerRequest> findByIsCheckedFalse();
+    long countByIsCheckedFalseAndIsViewedFalse();
 
     @Query(value = "SELECT user_id FROM users_roles", nativeQuery = true)
     List<Long> findAllUserIds();

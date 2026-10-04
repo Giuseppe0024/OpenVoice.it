@@ -8,4 +8,5 @@ public interface CareerRequestService {
     void save(CareerRequest careerRequest, User user);
     void careerAccept(Long requestId);
     CareerRequest find(Long id);
+    void markAsViewed(Long id);
 }

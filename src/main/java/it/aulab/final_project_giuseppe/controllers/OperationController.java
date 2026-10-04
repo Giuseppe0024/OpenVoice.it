@@ -71,6 +71,7 @@ public class OperationController {
     //Rotta per il dettaglio di una richiesta
     @GetMapping("/career/request/detail/{id}")
     public String careerRequestDetail(@PathVariable("id") Long id, Model viewModel) {
+        careerRequestService.markAsViewed(id);
         viewModel.addAttribute("title", "Dettaglio richiesta");
         viewModel.addAttribute("request", careerRequestService.find(id));
         return "career/requestDetail";

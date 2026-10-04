@@ -44,6 +44,7 @@ public class CareerRequestServiceImpl implements CareerRequestService{
     public void save(CareerRequest careerRequest, User user){
         careerRequest.setUser(user);
         careerRequest.setIsChecked(false);
+        careerRequest.setIsViewed(false);
         careerRequestRepository.save(careerRequest);
 
         //Invio mail di richiesta del ruolo, all'admin
@@ -77,4 +78,12 @@ public class CareerRequestServiceImpl implements CareerRequestService{
     public CareerRequest find(Long id) {
         return careerRequestRepository.findById(id).get();
     }
+
+    @Override
+    public void markAsViewed(Long id) {
+    careerRequestRepository.findById(id).ifPresent(request -> {
+        request.setIsViewed(true);
+        careerRequestRepository.save(request);
+    });
+}
 }
