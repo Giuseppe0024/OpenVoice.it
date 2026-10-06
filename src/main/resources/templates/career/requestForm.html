@@ -1,45 +1,55 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:insert="~{index :: head}"></head>
-<body>
-    <head th:insert="~{index :: navbar}"></head>
+<body class="d-flex flex-column min-vh-100">
+    <header th:insert="~{index :: navbar}"></header>
 
-
-    <div class="vh-100">
+    <main class="flex-grow-1 my-5">
         <div class="container">
-            <div class="row">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
 
-                <div class="col-12 my-5 d-flex justify-content-between align-items-center">
-                    <div class="d-flex justify-content-center align-items-center flex-grow-1">
-                        <h1 th:text="${title}">Richiesta collaborazione</h1>
+                    <!-- Titolo e Intro -->
+                    <div class="text-center mb-4">
+                        <span class="badge badge-sunset text-uppercase px-3 py-2 rounded-pill mb-2">Unisciti a Noi</span>
+                        <h1 class="display-6 font-serif-brand fw-bold mb-2" th:text="${title}">Richiesta collaborazione</h1>
+                        <p class="text-muted">Presenta la tua candidatura per entrare nella redazione editoriale</p>
                     </div>
-                </div>
 
-                <div class="col-12 my-5">
-                    <form th:action="@{/operations/career/request/save}" method="POST" th:object="${careerRequest}" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label for="body" class="form-label">Motivo della richiesta:</label>
-                            <textarea id="body" class="form-control" th:field="*{body}"
-                            placeholder="Inserisci motivazione...."></textarea>
-                        </div>
+                    <!-- Form Card -->
+                    <div class="card editor-card-form p-4 p-md-5">
+                        <form th:action="@{/operations/career/request/save}" method="POST" th:object="${careerRequest}" enctype="multipart/form-data">
+                            
+                            <!-- Ruolo desiderato -->
+                            <div class="mb-4">
+                                <label for="role" class="form-label fw-semibold text-secondary small">Per quale ruolo intendi candidarti?</label>
+                                <select id="role" th:field="*{role}" class="form-select form-select-lg rounded-3 fs-6">
+                                    <option th:each="role : ${roles}" th:value="${role.id}" th:text="${#strings.substring(role.name, 5)}"></option>
+                                </select>
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="role" class="form-label">Per quale ruolo?</label>
-                            <select id="role" th:field="*{role}" class="form-select">
-                                <option th:each="role:${roles}" th:value="${role.id}"
-                                th:text="${#strings.substring(role.name, 5)}"></option>
-                            </select>
-                        </div>
+                            <!-- Motivazione -->
+                            <div class="mb-4">
+                                <label for="body" class="form-label fw-semibold text-secondary small">Motivo della richiesta ed esperienze pregresse</label>
+                                <textarea id="body" rows="7" class="form-control rounded-3" th:field="*{body}" placeholder="Raccontaci chi sei, le tue passioni di scrittura o la tua esperienza nella revisione editoriale..."></textarea>
+                            </div>
 
-                        <button type="submit" class="btn btn-success">Effettua richiesta</button>
-                    </form>
+                            <!-- Submit -->
+                            <div class="d-grid mt-4">
+                                <button type="submit" class="btn btn-sunset py-3 rounded-pill fw-bold">
+                                    <i class="fa-solid fa-paper-plane me-2"></i> Invia la tua candidatura
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
-
-    <head th:insert="~{index :: footer}"></head>
+    <footer th:insert="~{index :: footer}"></footer>
     <script th:replace="~{index :: bootstrapScript}"></script>
 </body>
 </html>

@@ -1,68 +1,88 @@
 <!DOCTYPE html>
 <html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="~{index :: head}"></head>
-<body>
-    <nav th:insert="~{index :: navbar}"></nav>
+<body class="d-flex flex-column min-vh-100">
+    <header th:insert="~{index :: navbar}"></header>
 
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="text-center">Registrazione</h2>
-                    </div>
-                    
+    <main class="auth-wrapper my-5 flex-grow-1">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-10 col-md-9 col-lg-6">
+
                     <!-- Messaggio di avvenuta registrazione -->
-                    <div th:if="${param.success}">
-                        <div class="alert alert-info">
-                            Ti sei registrato con successo alla piattaforma!
+                    <div th:if="${param.success}" class="alert alert-success border-0 shadow-sm rounded-4 d-flex align-items-center mb-4" role="alert">
+                        <i class="fa-solid fa-circle-check fs-5 me-2 flex-shrink-0 text-success"></i>
+                        <span class="small fw-semibold">Ti sei registrato con successo! Ora puoi effettuare l'accesso.</span>
+                    </div>
+
+                    <div class="card auth-card">
+                        <div class="auth-header">
+                            <div class="auth-icon-badge" style="background: var(--pc-gradient-sunset); color: #ffffff; box-shadow: 0 6px 18px var(--pc-purple-glow);">
+                                <i class="fa-solid fa-user-plus fs-5"></i>
+                            </div>
+                            <h2 class="font-serif-brand fw-bold mb-1 h3">Crea il tuo Account</h2>
+                            <p class="text-muted small mb-0">Entra a far parte del circuito editoriale di <span class="text-gradient-sunset fw-bold">Pepito Chronicle</span></p>
+                        </div>
+
+                        <div class="card-body p-4 p-md-5">
+                            <form method="post" role="form" th:action="@{/register/save}" th:object="${user}">
+                                
+                                <div class="row g-3 mb-3">
+                                    <!-- Nome -->
+                                    <div class="col-md-6">
+                                        <label for="firstName" class="form-label">Nome</label>
+                                        <input class="form-control" id="firstName" name="firstName" placeholder="Mario" th:field="*{firstName}" type="text"/>
+                                        <p th:errors="*{firstName}" class="text-danger small mt-1 mb-0" th:if="${#fields.hasErrors('firstName')}"></p>
+                                    </div>
+                                    
+                                    <!-- Cognome -->
+                                    <div class="col-md-6">
+                                        <label for="lastName" class="form-label">Cognome</label>
+                                        <input class="form-control" id="lastName" name="lastName" placeholder="Rossi" th:field="*{lastName}" type="text"/>
+                                        <p th:errors="*{lastName}" class="text-danger small mt-1 mb-0" th:if="${#fields.hasErrors('lastName')}"></p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Email -->
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">
+                                        <i class="fa-regular fa-envelope me-1" style="color: var(--pc-purple);"></i> Indirizzo Email
+                                    </label>
+                                    <input class="form-control" id="email" name="email" placeholder="mario.rossi@esempio.it" th:field="*{email}" type="email"/>
+                                    <p th:errors="*{email}" class="text-danger small mt-1 mb-0" th:if="${#fields.hasErrors('email')}"></p>
+                                </div>
+                                
+                                <!-- Password -->
+                                <div class="mb-4">
+                                    <label for="password" class="form-label">
+                                        <i class="fa-solid fa-lock me-1" style="color: var(--pc-red);"></i> Password
+                                    </label>
+                                    <input class="form-control" id="password" name="password" placeholder="Scegli una password robusta" th:field="*{password}" type="password"/>
+                                    <p th:errors="*{password}" class="text-danger small mt-1 mb-0" th:if="${#fields.hasErrors('password')}"></p>
+                                </div>
+                                
+                                <!-- Pulsante Registrati -->
+                                <div class="d-grid mb-4">
+                                    <button class="btn btn-sunset py-3 rounded-pill fw-bold fs-6" type="submit">
+                                        <i class="fa-solid fa-check me-2"></i> Completa Registrazione
+                                    </button>
+                                </div>
+
+                                <!-- Link Login -->
+                                <div class="text-center pt-3 border-top border-light-subtle">
+                                    <span class="text-muted small">Hai già un profilo attivo?</span>
+                                    <a th:href="@{/login}" class="auth-link small ms-1 fw-bold text-decoration-none" style="color: var(--pc-purple);">Accedi qui</a>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    
-                    <div class="card-body">
-                        <form method="post" role="form" th:action="@{/register/save}" th:object="${user}">
-                            
-                            <!-- Nome -->
-                            <div class="form-group mb-3">
-                                <label class="form-label">Nome</label>
-                                <input class="form-control" id="firstName" name="firstName" placeholder="Inserisci il tuo nome" th:field="*{firstName}" type="text"/>
-                                <p th:errors="*{firstName}" class="text-danger" th:if="${#fields.hasErrors('firstName')}"></p>
-                            </div>
-                            
-                            <!-- Cognome -->
-                            <div class="form-group mb-3">
-                                <label class="form-label">Cognome</label>
-                                <input class="form-control" id="lastName" name="lastName" placeholder="Inserisci il tuo cognome" th:field="*{lastName}" type="text"/>
-                                <p th:errors="*{lastName}" class="text-danger" th:if="${#fields.hasErrors('lastName')}"></p>
-                            </div>
-                            
-                            <!-- Email -->
-                            <div class="form-group mb-3">
-                                <label class="form-label">Email</label>
-                                <input class="form-control" id="email" name="email" placeholder="Inserisci l'indirizzo email" th:field="*{email}" type="email"/>
-                                <p th:errors="*{email}" class="text-danger" th:if="${#fields.hasErrors('email')}"></p>
-                            </div>
-                            
-                            <!-- Password -->
-                            <div class="form-group mb-3">
-                                <label class="form-label">Password</label>
-                                <input class="form-control" id="password" name="password" placeholder="Inserisci la password" th:field="*{password}" type="password"/>
-                                <p th:errors="*{password}" class="text-danger" th:if="${#fields.hasErrors('password')}"></p>
-                            </div>
-                            
-                            <!-- Pulsante Registrati & Link Login -->
-                            <div class="form-group mb-3">
-                                <button class="btn btn-primary" type="submit">Registrati</button>
-                                <span class="ms-2">Sei già registrato? <a th:href="@{/login}">Accedi qui</a></span>
-                            </div>
-                        </form>
-                    </div>
+
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <head th:insert="~{index :: footer}"></head>
+    <footer th:insert="~{index :: footer}"></footer>
     <script th:replace="~{index :: bootstrapScript}"></script>
 </body>
 </html>

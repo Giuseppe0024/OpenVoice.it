@@ -1,85 +1,137 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:insert="~{index :: head}"></head>
-<body>
-    <head th:insert="~{index :: navbar}"></head>
+<body class="d-flex flex-column min-vh-100">
+    <header th:insert="~{index :: navbar}"></header>
 
-    <div th:if="${successMessage}" class="alert alert-success">
-        <p th:text="${successMessage}"></p>
-    </div>
+    <main class="flex-grow-1 my-5">
+        <div class="container">
 
-    <div class="container min-vh-100">
-        <div class="row">
-            <div class="col-12 my-5 d-flex justify-content-center align-items-center">
-                <span class="h1">Dashboard Admin</span>
+            <!-- Alert Success -->
+            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show border-0 shadow-sm d-flex align-items-center mb-4" role="alert">
+                <i class="fa-solid fa-circle-check fs-5 me-2 text-success"></i>
+                <div th:text="${successMessage}"></div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
 
-            <div class="col-12 my-5 d-flex justify-content-center align-items-center">
-                <span class="h1" th:text="${title}">Richieste ricevute</span>
+            <!-- Header Dashboard Admin -->
+            <div class="dashboard-header-card mb-5">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <span class="badge badge-sunset text-uppercase px-3 py-2 rounded-pill mb-2">Pannello Direzione</span>
+                        <h1 class="display-6 font-serif-brand fw-bold mb-1">Dashboard Admin</h1>
+                        <p class="text-muted mb-0">Gestisci le richieste di collaborazione e l'albero delle categorie editoriali.</p>
+                    </div>
+                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                        <a th:href="@{/categories/create}" class="btn btn-sunset rounded-pill px-4 py-2">
+                            <i class="fa-solid fa-circle-plus me-1"></i> Nuova Categoria
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-12">
-                <table class="table table-striped table-responsive-lg">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Utente</th>
-                            <th>Per il ruolo</th>
-                            <th>#Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="request:${requests}">
-                            <td th:text="${request.id}"></td>
-                            <td th:text="${request.user.username}"></td>
-                            <td th:text="${request.role.name}"></td>
-                            <td>
-                                <a th:href="@{/operations/career/request/detail/{id}(id=${request.id})}" class="btn btn-primary m-2">
-                                    <i class="fa-solid fa-bars"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- Sezione 1: Richieste di Carriera -->
+            <div class="mb-5">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h2 class="h4 font-serif-brand fw-bold mb-0 d-flex align-items-center gap-2">
+                        <span class="badge rounded-circle p-2 bg-danger bg-opacity-10 text-danger">
+                            <i class="fa-solid fa-user-tie"></i>
+                        </span>
+                        <span th:text="${title}">Richieste ricevute</span>
+                    </h2>
+                    <span class="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill small" th:text="${requests != null ? requests.size() + ' In attesa' : '0'}"></span>
+                </div>
+
+                <div class="dashboard-table-container">
+                    <div class="table-responsive">
+                        <table class="table table-modern table-hover align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 80px;">ID</th>
+                                    <th>Candidato</th>
+                                    <th>Ruolo Richiesto</th>
+                                    <th class="text-end">Revisione</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="request : ${requests}">
+                                    <td class="fw-bold text-muted" th:text="'#' + ${request.id}"></td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="rounded-circle bg-light border p-2 text-secondary">
+                                                <i class="fa-solid fa-user"></i>
+                                            </div>
+                                            <span class="fw-semibold text-dark" th:text="${request.user.username}"></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-purple text-white px-3 py-2 rounded-pill fw-semibold" th:text="${request.role.name}"></span>
+                                    </td>
+                                    <td class="text-end">
+                                        <a th:href="@{/operations/career/request/detail/{id}(id=${request.id})}" class="btn btn-sunset btn-action-icon shadow-sm" title="Esamina Candidatura">
+                                            <i class="fa-solid fa-eye text-white"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr th:if="${requests == null or requests.isEmpty()}">
+                                    <td colspan="4" class="text-center py-4 text-muted">
+                                        <i class="fa-regular fa-folder-open me-2"></i> Nessuna candidatura in attesa di revisione.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-12 my-5 d-flex justify-content-center align-items-center">
-                <span class="h1">Tutte le categorie</span>
-                <a th:href="@{/categories/create}" class="btn btn-primary m-2">
-                    <i class="fa-solid fa-plus"></i>
-                </a>
-            </div>
+            <!-- Sezione 2: Categorie Editoriali -->
+            <div class="mb-5">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h2 class="h4 font-serif-brand fw-bold mb-0 d-flex align-items-center gap-2">
+                        <span class="badge rounded-circle p-2 bg-warning bg-opacity-10 text-warning">
+                            <i class="fa-solid fa-tags"></i>
+                        </span>
+                        Tutte le Categorie
+                    </h2>
+                </div>
 
-            <div class="col-12">
-                <table class="table table-striped table-responsive-lg">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Nome</th>
-                            <th class="text-end">#Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="category : ${categories}">
-                            <td th:text="${category.id}"></td>
-                            <td th:text="${category.name}"></td>
-                            <td class="text-end">
-                                <a th:href="@{/categories/edit/{id}{id=$(category.id)}}" class="btn btn-warning m-2">
-                                    <i class="fa-solid fa-pencil"></i>
-                                </a>
-                                <a th:href="@{/categories/delete/{id}(id=${category.id})}" class="btn btn-primary">
-                                    <i class="fa-solid fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="dashboard-table-container">
+                    <div class="table-responsive">
+                        <table class="table table-modern table-hover align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 80px;">ID</th>
+                                    <th>Nome Rubrica</th>
+                                    <th class="text-end">Azioni</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="category : ${categories}">
+                                    <td class="fw-bold text-muted" th:text="'#' + ${category.id}"></td>
+                                    <td>
+                                        <span class="fw-bold text-dark fs-6" th:text="${category.name}"></span>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="d-inline-flex gap-2">
+                                            <a th:href="@{/categories/edit/{id}(id=${category.id})}" class="btn btn-orange btn-action-icon shadow-sm" title="Modifica Categoria">
+                                                <i class="fa-solid fa-pencil text-white"></i>
+                                            </a>
+                                            <a th:href="@{/categories/delete/{id}(id=${category.id})}" class="btn btn-danger btn-action-icon shadow-sm" title="Elimina Categoria">
+                                                <i class="fa-solid fa-trash text-white"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
         </div>
-    </div>
+    </main>
 
-    <head th:insert="~{index :: footer}"></head>
+    <footer th:insert="~{index :: footer}"></footer>
     <script th:replace="~{index :: bootstrapScript}"></script>
 </body>
 </html>

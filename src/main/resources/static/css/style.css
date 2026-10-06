@@ -1,0 +1,804 @@
+/* =========================================================
+   OPEN VOICE - Editorial Journalism & Relaxing UI
+   Colori: Nero Inchiostro (#121826), Rosso Stampa (#b91c1c), 
+           Ambra Tipografica (#c2410c), Carta Calda (#faf8f5)
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap');
+
+:root {
+    /* Palette Tipografica Editoriale */
+    --ov-ink: #121826;
+    --ov-ink-hover: #0a0e17;
+    --ov-lead: #1f2937;
+    --ov-crimson: #b91c1c;
+    --ov-crimson-hover: #991b1b;
+    --ov-amber: #c2410c;
+    
+    /* TONI PANNA & CARTA CALDA EDITORIALE (Sostituiscono il bianco) */
+    --ov-paper: #f7f3ea;         /* Panna caldo di base per il body */
+    --ov-surface: #fdfbf7;       /* Panna chiarissimo per card e contenitori (non più #ffffff) */
+    --ov-surface-alt: #f0ebe0;   /* Panna leggermente più scuro per contrasti, tabelle e badge */
+    
+    --ov-border: #e3dcce;       /* Bordo caldo coordinato */
+    --ov-border-strong: #121826;
+    --ov-border-subtle: #d8cfbe;
+    
+    --ov-text-main: #1c1917;
+    --ov-text-muted: #57534e;
+
+    /* Sfumature e Ombre Tipografiche */
+    --ov-gradient-brand: linear-gradient(135deg, #b91c1c 0%, #1f2937 60%, #c2410c 100%);
+    --ov-gradient-hero: linear-gradient(135deg, #0c0a09 0%, #1c1917 55%, #292524 100%);
+    
+    --ov-shadow-sm: 0 1px 3px rgba(28, 25, 23, 0.05);
+    --ov-shadow-md: 0 8px 24px -4px rgba(28, 25, 23, 0.08);
+    --ov-shadow-lg: 0 16px 32px -8px rgba(18, 24, 38, 0.12);
+    --ov-radius: 12px;
+}
+
+body {
+    background-color: var(--ov-paper);
+    color: var(--ov-text-main);
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+.font-serif-brand {
+    font-family: 'Source Serif 4', Georgia, serif;
+    letter-spacing: -0.015em;
+}
+
+/* Gradients e Accenti Testo */
+.text-brand-gradient {
+    background: var(--ov-gradient-brand);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* =========================================================
+   NAVBAR & SEARCH
+   ========================================================= */
+
+.custom-navbar {
+    background: rgba(250, 248, 245, 0.95) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 2px solid var(--ov-border-strong);
+}
+
+.brand-icon-box {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--ov-gradient-brand);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(185, 28, 28, 0.25);
+}
+
+.custom-navbar .nav-link {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #44403c !important;
+    padding: 0.5rem 0.85rem !important;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+}
+
+.custom-navbar .nav-link:hover {
+    color: var(--ov-crimson) !important;
+    background-color: rgba(185, 28, 28, 0.06);
+}
+
+.nav-user-pill {
+    background: #ffffff;
+    border: 1px solid var(--ov-border);
+    border-radius: 9999px;
+    padding: 0.45rem 0.9rem;
+}
+
+.nav-user-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--ov-ink);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+}
+
+.search-input {
+    border-radius: 9999px 0 0 9999px !important;
+    border: 1.5px solid var(--ov-border);
+    padding: 0.45rem 1.1rem;
+    background-color: #ffffff;
+    font-size: 0.88rem;
+}
+
+.search-input:focus {
+    border-color: var(--ov-ink);
+    box-shadow: 0 0 0 3px rgba(18, 24, 38, 0.08);
+}
+
+.search-btn {
+    border-radius: 0 9999px 9999px 0 !important;
+    padding: 0.45rem 1.1rem;
+    background-color: var(--ov-ink);
+    border: 1.5px solid var(--ov-ink);
+    color: #ffffff;
+    transition: background-color 0.2s ease;
+}
+
+.search-btn:hover {
+    background-color: var(--ov-crimson);
+    border-color: var(--ov-crimson);
+}
+
+/* =========================================================
+   HERO BANNER
+   ========================================================= */
+
+.hero-banner {
+    background: var(--ov-gradient-hero);
+    color: #ffffff;
+    position: relative;
+    padding: 4.5rem 0;
+    border-bottom: 3px solid var(--ov-crimson);
+}
+
+.hero-cover-wrapper {
+    position: relative;
+    border-radius: var(--ov-radius);
+    overflow: hidden;
+    box-shadow: var(--ov-shadow-lg);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.hero-cover-img {
+    max-height: 330px;
+    width: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.hero-cover-caption {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 0.75rem;
+    background: rgba(18, 24, 38, 0.85);
+    color: #e7e5e4;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.78rem;
+}
+
+/* =========================================================
+   BOTTONI EDITORIALI
+   ========================================================= */
+
+.btn-editorial-primary {
+    background: var(--ov-ink);
+    color: #ffffff !important;
+    border: 1px solid var(--ov-ink);
+    font-weight: 600;
+    border-radius: 9999px;
+    padding: 0.65rem 1.4rem;
+    transition: all 0.2s ease;
+}
+
+.btn-editorial-primary:hover {
+    background: var(--ov-crimson);
+    border-color: var(--ov-crimson);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(185, 28, 28, 0.25);
+}
+
+.btn-editorial-outline {
+    background: transparent;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    font-weight: 600;
+    border-radius: 9999px;
+    padding: 0.65rem 1.4rem;
+    backdrop-filter: blur(6px);
+    transition: all 0.2s ease;
+}
+
+/* CORRETTO: niente più hover bianco */
+.btn-editorial-outline:hover {
+    background: var(--ov-crimson);
+    color: #ffffff !important;
+    border-color: var(--ov-crimson);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(185, 28, 28, 0.25);
+}
+
+/* Compatibilità classi esistenti */
+.btn-sunset {
+    background: var(--ov-ink);
+    color: #ffffff !important;
+    border: 1px solid var(--ov-ink);
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-sunset:hover {
+    background: var(--ov-crimson);
+    border-color: var(--ov-crimson);
+    color: #ffffff !important;
+}
+
+.btn-orange {
+    background: var(--ov-amber);
+    color: #ffffff !important;
+    border: none;
+}
+
+.btn-purple {
+    background: var(--ov-lead);
+    color: #ffffff !important;
+    border: none;
+}
+
+.btn-action-icon {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+}
+
+.btn-action-icon:hover {
+    transform: translateY(-2px);
+}
+
+/* =========================================================
+   CARDS ARTICOLI CON FOTOGRAFIA CALMA
+   ========================================================= */
+
+.article-card {
+    background: var(--ov-surface);
+    border: 1px solid var(--ov-border);
+    border-radius: var(--ov-radius);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.article-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--ov-shadow-md);
+    border-color: var(--ov-border-subtle);
+}
+
+.article-card-img-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background-color: #e7e5e4;
+}
+
+.article-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.95) contrast(0.98);
+    transition: transform 0.5s ease, filter 0.3s ease;
+}
+
+.article-card:hover .article-card-img {
+    transform: scale(1.03);
+    filter: brightness(1) contrast(1);
+}
+
+.author-pill {
+    font-size: 0.78rem;
+    font-weight: 600;
+    background: #f5f5f4;
+    color: var(--ov-text-muted);
+    border-radius: 9999px;
+    padding: 0.25rem 0.65rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.category-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--ov-crimson);
+    background-color: rgba(185, 28, 28, 0.08);
+    padding: 0.2rem 0.55rem;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+/* =========================================================
+   DASHBOARDS & FORM EDITORIALI
+   ========================================================= */
+
+.dashboard-header-card {
+    background: var(--ov-surface);
+    border: 1px solid var(--ov-border);
+    border-left: 4px solid var(--ov-crimson);
+    border-radius: var(--ov-radius);
+    padding: 2rem;
+}
+
+.dashboard-table-container {
+    background: var(--ov-surface);
+    border-radius: var(--ov-radius);
+    border: 1px solid var(--ov-border);
+    box-shadow: var(--ov-shadow-sm);
+    overflow: hidden;
+}
+
+.table-modern thead th {
+    background: var(--ov-ink);
+    color: #ffffff;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.9rem 1.1rem;
+    border: none;
+}
+
+.table-modern tbody td {
+    padding: 0.95rem 1.1rem;
+    border-bottom: 1px solid var(--ov-border);
+    color: var(--ov-text-main);
+}
+
+.table-modern tbody tr:hover {
+    background-color: #fcfbf9;
+}
+
+.editor-card-form {
+    background: var(--ov-surface);
+    border: 1px solid var(--ov-border);
+    border-top: 4px solid var(--ov-crimson);
+    border-radius: var(--ov-radius);
+    box-shadow: var(--ov-shadow-sm);
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 1.5px solid var(--ov-border);
+    padding: 0.65rem 0.9rem;
+    background-color: #fafaf9;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--ov-ink);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(18, 24, 38, 0.08);
+}
+
+.article-hero-header {
+    background: #f5f2eb;
+    border-bottom: 1px solid var(--ov-border);
+    padding: 3.5rem 0 2.5rem 0;
+}
+
+.article-content-body {
+    font-size: 1.18rem;
+    line-height: 1.9;
+    color: #292524;
+    font-family: 'Source Serif 4', Georgia, serif;
+    white-space: pre-line;
+}
+
+.article-carousel {
+    border-radius: var(--ov-radius);
+    overflow: hidden;
+    box-shadow: var(--ov-shadow-md);
+    background-color: #1c1917;
+}
+
+.article-carousel-img {
+    width: 100%;
+    max-height: 480px;
+    object-fit: cover;
+}
+
+/* =========================================================
+   FOOTER EDITORIALE
+   ========================================================= */
+
+.footer-editorial {
+    background-color: var(--ov-ink);
+    color: #ffffff;
+    border-top: 3px solid var(--ov-crimson);
+}
+
+.footer-box-team {
+    padding: 1.5rem;
+    border-radius: var(--ov-radius);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* =========================================================
+   JS-DRIVEN COMPONENTS (Micro-interazioni)
+   ========================================================= */
+
+.pc-scroll-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--ov-crimson);
+    width: 0%;
+    z-index: 99999;
+    transition: width 0.1s ease-out;
+}
+
+.pc-back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--ov-ink);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.pc-back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.pc-back-to-top:hover {
+    background: var(--ov-crimson);
+}
+
+.zen-toolbar-container {
+    display: inline-block;
+    margin-bottom: 2rem;
+    position: sticky;
+    top: 75px;
+    z-index: 100;
+}
+
+.alert-progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: var(--ov-crimson);
+    animation: alertCountdown 4s linear forwards;
+}
+
+@keyframes alertCountdown {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+/* =========================================================
+   NEWSFEED SHOWCASE CONTAINER & CATEGORY FILTER BAR
+   ========================================================= */
+
+/* Riquadro contenitore con immagine di sfondo a tema redazione e overlay opaco */
+.newsfeed-showcase-box {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 3rem 2.5rem;
+    margin-bottom: 3.5rem;
+    border: 1px solid var(--ov-border);
+    box-shadow: var(--ov-shadow-md);
+    background-color: #1a1816;
+}
+
+/* Texture e immagine di sfondo d'archivio editoriale */
+.newsfeed-showcase-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=1600&q=80');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.25) contrast(1.1) saturate(0.7);
+    z-index: 1;
+}
+
+/* Layer opaco graduato tipo carta inchiostrata */
+.newsfeed-showcase-box::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(18, 24, 38, 0.82) 0%, rgba(26, 24, 22, 0.94) 100%);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 2;
+}
+
+/* Contenuto in primo piano */
+.newsfeed-inner-content {
+    position: relative;
+    z-index: 3;
+}
+
+/* Header della sezione showcase */
+.newsfeed-header-divider {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    padding-bottom: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.newsfeed-heading-title {
+    color: #ffffff;
+    font-size: 1.85rem;
+}
+
+.newsfeed-heading-subtitle {
+    color: #a8a29e;
+    font-size: 0.95rem;
+}
+
+/* Pillola badge rubrica */
+.newsfeed-section-badge {
+    background-color: rgba(185, 28, 28, 0.2);
+    border: 1px solid rgba(185, 28, 28, 0.4);
+    color: #fca5a5;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Filtri interattivi categoria */
+.category-filter-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.category-filter-pill {
+    color: #d6d3d1;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.category-filter-pill:hover,
+.category-filter-pill.active {
+    background-color: var(--ov-crimson);
+    border-color: var(--ov-crimson);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* Card in evidenza all'interno del riquadro */
+.showcase-card {
+    background-color: #ffffff;
+    border-radius: var(--ov-radius);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.showcase-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.5);
+}
+
+/* =========================================================
+   EDITORIAL MANAGEMENT & SHOWCASE EXTENSIONS
+   ========================================================= */
+
+/* Showcase variante Desk Scrittura (per Create/Edit) */
+.newsfeed-showcase-box.box-writing::before {
+    background-image: url('https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1600&q=80');
+}
+
+/* Showcase variante Archivio (per Tutti gli Articoli) */
+.newsfeed-showcase-box.box-archive::before {
+    background-image: url('https://images.unsplash.com/photo-1507842229452-9f3796d19114?auto=format&fit=crop&w=1600&q=80');
+}
+
+/* Form Container integrato nel box immersivo */
+.editor-form-wrapper {
+    background-color: var(--ov-surface);
+    border-radius: var(--ov-radius);
+    padding: 2.5rem;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    border-top: 4px solid var(--ov-crimson);
+}
+
+.form-label-editorial {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--ov-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.4rem;
+}
+
+/* Anteprima Drag & Drop e box file */
+.file-upload-box {
+    border: 2px dashed var(--ov-border-subtle);
+    border-radius: var(--ov-radius);
+    padding: 1.5rem;
+    background-color: #fafaf9;
+    text-align: center;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+/* CORRETTO: niente più hover bianco */
+.file-upload-box:hover {
+    border-color: var(--ov-crimson);
+    background-color: var(--ov-surface-alt);
+}
+
+/* Alert inline e messaggi errore */
+.field-error-text {
+    font-size: 0.82rem;
+    color: var(--ov-crimson);
+    font-weight: 600;
+    margin-top: 0.3rem;
+}
+
+/* =========================================================
+   ARTICLE SECTION: SHOWCASES, CORNICI & DETTAGLIO
+   ========================================================= */
+
+/* Sfondo tematico per la pagina dettaglio/lettura */
+.newsfeed-showcase-box.box-reading::before {
+    background-image: url('https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1600&q=80');
+}
+
+/* Sfondo tematico per creazione e modifica (Desk Scrittura) */
+.newsfeed-showcase-box.box-writing::before {
+    background-image: url('https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1600&q=80');
+}
+
+/* Cornice interna per contenitori form e schede lettura */
+.editorial-frame-card {
+    background-color: var(--ov-surface);
+    border-radius: var(--ov-radius);
+    padding: 2.5rem;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    border-top: 4px solid var(--ov-crimson);
+    border-left: 1px solid var(--ov-border);
+    border-right: 1px solid var(--ov-border);
+    border-bottom: 1px solid var(--ov-border);
+}
+
+/* Dettaglio Articolo: Header interno alla cornice */
+.article-detail-header {
+    border-bottom: 2px solid var(--ov-border);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.article-detail-title {
+    font-size: 2.5rem;
+    color: var(--ov-ink);
+    line-height: 1.25;
+}
+
+.article-detail-subtitle {
+    font-size: 1.2rem;
+    color: var(--ov-text-muted);
+    line-height: 1.6;
+}
+
+.article-meta-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.88rem;
+    color: var(--ov-text-muted);
+}
+
+/* Immagine di copertina nel dettaglio */
+.article-detail-cover-box {
+    border-radius: var(--ov-radius);
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+    box-shadow: var(--ov-shadow-md);
+    background-color: #1c1917;
+}
+
+.article-detail-cover-img {
+    width: 100%;
+    max-height: 520px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Etichette form */
+.form-label-editorial {
+    font-weight: 700;
+    font-size: 0.86rem;
+    color: var(--ov-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.4rem;
+}
+
+/* Box per input file */
+.file-upload-box {
+    border: 2px dashed var(--ov-border-subtle);
+    border-radius: var(--ov-radius);
+    padding: 1.25rem;
+    background-color: #fafaf9;
+    text-align: center;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+/* CORRETTO: niente più hover bianco */
+.file-upload-box:hover {
+    border-color: var(--ov-crimson);
+    background-color: var(--ov-surface-alt);
+}
+
+.field-error-text {
+    font-size: 0.82rem;
+    color: var(--ov-crimson);
+    font-weight: 600;
+    margin-top: 0.35rem;
+}
+
+/* =========================================================
+   HOVER TASTI: mai bianco, sempre visibile
+   ========================================================= */
+
+.btn-orange:hover {
+    background: #9a3412;
+    color: #ffffff !important;
+}
+
+.btn-purple:hover {
+    background: var(--ov-ink);
+    color: #ffffff !important;
+}
+
+/* Varianti Bootstrap chiare: evitano l'hover bianco */
+.btn-light:hover,
+.btn-outline-light:hover,
+.btn-white:hover {
+    background-color: var(--ov-crimson) !important;
+    border-color: var(--ov-crimson) !important;
+    color: #ffffff !important;
+}

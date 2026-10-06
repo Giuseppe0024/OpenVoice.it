@@ -1,56 +1,89 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:insert="~{index :: head}"></head>
-<body>
-    <head th:insert="~{index :: navbar}"></head>
+<body class="d-flex flex-column min-vh-100">
+    <header th:insert="~{index :: navbar}"></header>
 
-    <div class="vh-100">
-        <div th:if="${resultMessage}" class="alert alert-success">
-            <p th:text="${resultMessage}"></p>
-        </div>
-
+    <main class="flex-grow-1 my-5">
         <div class="container">
-            <div class="row">
-                <div class="col-12 my-5 d-flex justify-content-center align-items-center">
-                    <span class="h1">Dashboard Revisor</span>
-                </div>
 
-                <div class="col-12 my-5 d-flex justify-content-center align-items-center">
-                    <span class="h1" th:text="${title}">Articoli da revisionare</span>
-                </div>
+            <!-- Alert Risultato Operazione -->
+            <div th:if="${resultMessage}" class="alert alert-success alert-dismissible fade show border-0 shadow-sm d-flex align-items-center mb-4" role="alert">
+                <i class="fa-solid fa-circle-check fs-5 me-2 text-success"></i>
+                <div th:text="${resultMessage}"></div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
 
-                <div class="col-12">
-                    <table class="table table-striped table-responsive-lg">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Titolo</th>
-                                <th>Sottotitolo</th>
-                                <th>Categoria</th>
-                                <th>#Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="article:${articles}">
-                                <td th:text="${article.id}"></td>
-                                <td th:text="${article.title}"></td>
-                                <td th:text="${article.subtitle}"></td>
-                                <td th:if="${article.category}" th:text="${article.category.name}"></td>
-                                <td th:unless="${article.category}">Nessuna categoria</td>
-                                <td>
-                                    <a th:href="@{/articles/revisor/detail/{id}(id=${article.id})}" class="btn btn-primary m-2">
-                                        Leggi
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <!-- Header Dashboard Revisor -->
+            <div class="dashboard-header-card mb-5">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <span class="badge badge-sunset text-uppercase px-3 py-2 rounded-pill mb-2">Desk di Controllo Qualità</span>
+                        <h1 class="display-6 font-serif-brand fw-bold mb-1">Dashboard Revisor</h1>
+                        <p class="text-muted mb-0">Controlla, correggi e approva gli articoli scritti prima della pubblicazione.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <head th:insert="~{index :: footer}"></head>
+            <!-- Tabella Articoli da Revisionare -->
+            <div class="mb-5">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h2 class="h4 font-serif-brand fw-bold mb-0 d-flex align-items-center gap-2">
+                        <span class="badge rounded-circle p-2 bg-purple bg-opacity-10 text-purple">
+                            <i class="fa-solid fa-glasses"></i>
+                        </span>
+                        <span th:text="${title}">Articoli da revisionare</span>
+                    </h2>
+                    <span class="badge bg-danger text-white px-3 py-2 rounded-pill small" th:text="${articles != null ? articles.size() + ' In Bozza' : '0'}"></span>
+                </div>
+
+                <div class="dashboard-table-container">
+                    <div class="table-responsive">
+                        <table class="table table-modern table-hover align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 80px;">ID</th>
+                                    <th>Titolo</th>
+                                    <th>Sottotitolo</th>
+                                    <th>Categoria</th>
+                                    <th class="text-end">Azione</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="article : ${articles}">
+                                    <td class="fw-bold text-muted" th:text="'#' + ${article.id}"></td>
+                                    <td>
+                                        <span class="fw-bold text-dark fs-6" th:text="${article.title}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted small" th:text="${article.subtitle}"></span>
+                                    </td>
+                                    <td>
+                                        <span th:if="${article.category}" class="badge bg-purple text-white px-3 py-2 rounded-pill fw-medium" th:text="${article.category.name}"></span>
+                                        <span th:unless="${article.category}" class="badge bg-light text-secondary border px-3 py-2 rounded-pill">Nessuna categoria</span>
+                                    </td>
+                                    <td class="text-end">
+                                        <a th:href="@{/articles/revisor/detail/{id}(id=${article.id})}" class="btn btn-sunset rounded-pill px-3 py-2 fw-semibold shadow-sm">
+                                            <i class="fa-solid fa-file-signature me-1"></i> Revisiona
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr th:if="${articles == null or articles.isEmpty()}">
+                                    <td colspan="5" class="text-center py-5 text-muted">
+                                        <i class="fa-regular fa-circle-check fs-2 text-success d-block mb-2"></i>
+                                        Nessun articolo in attesa di revisione. Ottimo lavoro!
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer th:insert="~{index :: footer}"></footer>
     <script th:replace="~{index :: bootstrapScript}"></script>
 </body>
 </html>

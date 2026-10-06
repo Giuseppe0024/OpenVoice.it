@@ -1,50 +1,80 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:insert="~{index :: head}"></head>
-<body>
-    <head th:insert="~{index :: navbar}"></head>
+<body class="d-flex flex-column min-vh-100">
+    <header th:insert="~{index :: navbar}"></header>
 
-    <div class="min-vh-100">
-        <div th:if="${successMessage}" class="alert alert-success">
-            <p th:text="${successMessage}"></p>
+    <main class="flex-grow-1">
+        <!-- Notifica di successo -->
+        <div class="container mt-4" th:if="${successMessage}">
+            <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm d-flex align-items-center" role="alert">
+                <i class="fa-solid fa-circle-check fs-5 me-2"></i>
+                <div th:text="${successMessage}"></div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         </div>
 
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-10 mb-5">
-                    <h1 class="text-center" th:text="${title}">Index articoli</h1>
+        <!-- Intestazione Pagina -->
+        <section class="py-5 bg-white border-bottom mb-5">
+            <div class="container text-center">
+                <span class="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill fw-semibold text-uppercase small mb-2">Archivio Completo</span>
+                <h1 class="display-5 font-serif-brand fw-bold mb-2" th:text="${title}">Tutti gli Articoli</h1>
+                <p class="text-muted lead mb-0">Esplora l'intera produzione editoriale di Pepito Chronicle</p>
+            </div>
+        </section>
+
+        <!-- Griglia Articoli -->
+        <div class="container mb-5" th:if="${not #lists.isEmpty(articles)}">
+            <div class="row g-4">
+                <div th:each="article : ${articles}" class="col-12 col-md-6 col-lg-4">
+                    <article class="card article-card h-100 d-flex flex-column shadow-sm">
+                        <!-- Immagine Articolo -->
+                        <div class="article-card-img-wrapper">
+                            <img th:if="${article.image != null}" th:src="${article.image.path}" class="article-card-img" alt="Copertina articolo">
+                            <img th:unless="${article.image != null}" th:src="@{/default.jpg}" class="article-card-img" alt="Copertina default">
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="card-body d-flex flex-column p-4">
+                            <div class="mb-3">
+                                <span class="author-pill">
+                                    <i class="fa-solid fa-user-pen text-secondary"></i>
+                                    <span th:text="${article.user.username}">Username</span>
+                                </span>
+                            </div>
+
+                            <h3 class="article-title mb-2" th:text="${article.title}">Titolo</h3>
+                            <p class="article-subtitle mb-4 flex-grow-1" th:text="${article.subtitle}">Sottotitolo</p>
+
+                            <div class="pt-3 border-top border-light-subtle">
+                                <a th:href="@{/articles/detail/{id}(id=${article.id})}" class="btn btn-dark w-100 rounded-pill fw-medium py-2">
+                                    Leggi l'articolo <i class="fa-solid fa-arrow-right ms-1 small"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
                 </div>
             </div>
         </div>
 
-        <div class="container" th:if="${articles.size() > 0}">
-            <div class="row justify-content-center mb-5">
-                <div th:each="article:${articles}" class="col-12 col-md-4 d-flex justify-content-center">
-                    <div class="card mb-3" style="width: 18rem;">
-                        <img th:if="${article.image != null}" th:src="${article.image.path}" class="card-img-top" alt="...">
-                        <img th:unless="${article.image != null}" th:src="@{/images/default.jpg}" class="card-img-top" alt="...">
-
-                        <div class="card-body">
-                            <h5 class="card-title" th:text="${article.title}"></h5>
-                            <p class="card-text" th:text="${article.subtitle}"></p>
-                            <p class="card-text" th:text="${article.user.username}"></p>
-
-                            <a th:href="@{/articles/detail/{id}(id=${article.id})}" class="btn btn-primary">Leggi</a>
-                        </div>
+        <!-- Empty State se non ci sono articoli -->
+        <div class="container my-5" th:if="${#lists.isEmpty(articles)}">
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <div class="empty-state-card shadow-sm">
+                        <i class="fa-solid fa-newspaper text-muted display-3 mb-3"></i>
+                        <h2 class="font-serif-brand fw-bold mb-2">Nessun articolo presente</h2>
+                        <p class="text-muted mb-4">Non sono ancora stati pubblicati contenuti in questa sezione.</p>
+                        <a th:href="@{/}" class="btn btn-outline-dark rounded-pill px-4">
+                            <i class="fa-solid fa-house me-1"></i> Torna alla Home
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
+    </main>
 
-        <div class="row justify-content-center vh-100" th:unless="${articles.size() > 0}">
-            <div class="col-10 mb-5">
-                <h1 class="text-center">NESSUN ARTICOLO PRESENTE</h1>
-            </div>
-        </div>
-
-    </div>
-
-    <head th:insert="~{index :: footer}"></head>
+    <footer th:insert="~{index :: footer}"></footer>
     <script th:replace="~{index :: bootstrapScript}"></script>
 </body>
 </html>

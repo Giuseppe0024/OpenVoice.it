@@ -150,9 +150,9 @@ public class ArticleService implements CrudService<ArticleDto, Article, Long>{
             Article article = articleRepository.findById(key).get();
 
             try {
-                String path = article.getImage().getPath();
-                article.getImage().setArticle(null);
-                imageService.deleteImage(path);
+                if(article.getImage() != null) {
+                    imageService.deleteImage(article.getImage().getPath());
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

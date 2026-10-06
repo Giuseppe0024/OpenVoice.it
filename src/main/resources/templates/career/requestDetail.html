@@ -1,49 +1,50 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:insert="~{index :: head}"></head>
-<body>
-    <head th:insert="~{index :: navbar}"></head>
+<body class="d-flex flex-column min-vh-100">
+    <header th:insert="~{index :: navbar}"></header>
 
-    <div class="vh-100">
-        <div class="container-fluid p-5 bg-secondary-subtle text-center">
+    <main class="flex-grow-1 my-5">
+        <div class="container">
             <div class="row justify-content-center">
-                <div class="col-12">
-                    <span class="h1">Richiesta</span>
+                <div class="col-12 col-lg-8">
+
+                    <!-- Header Candidatura -->
+                    <div class="dashboard-header-card mb-4 text-center">
+                        <span class="badge badge-sunset text-uppercase px-3 py-2 rounded-pill mb-2">Valutazione Candidato</span>
+                        <h1 class="display-6 font-serif-brand fw-bold mb-1" th:text="${request.user.username}">Nome Utente</h1>
+                        <p class="text-muted small mb-0">Richiesta di ingresso nella redazione di Pepito Chronicle</p>
+                    </div>
+
+                    <!-- Motivazione Box -->
+                    <div class="card editor-card-form p-4 p-md-5 mb-4">
+                        <h3 class="h5 fw-bold mb-3 text-secondary d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-quote-left text-danger"></i> Motivazione della candidatura
+                        </h3>
+                        <div class="p-4 rounded-3 bg-light border border-light-subtle mb-4">
+                            <p class="fs-6 text-dark mb-0 lh-lg" style="white-space: pre-line;" th:text="${request.body}">Testo candidatura...</p>
+                        </div>
+
+                        <!-- Bottoni di Azione -->
+                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 pt-3 border-top">
+                            <a th:href="@{/admin/dashboard}" class="btn btn-outline-secondary rounded-pill px-4">
+                                <i class="fa-solid fa-arrow-left me-2"></i> Torna alla Dashboard
+                            </a>
+
+                            <form th:action="@{/operations/career/request/accept/{id}(id=${request.id})}" method="post" class="m-0">
+                                <button type="submit" class="btn btn-sunset rounded-pill px-4 py-2">
+                                    <i class="fa-solid fa-check me-2"></i> Accetta Candidatura
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
+    </main>
 
-        <div class="container my-5">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-8 d-flex flex-column">
-                    <div class="text-center">
-                        <h2 th:text="${request.user.username}">Nome utente</h2>
-                    </div>
-                </div>
-                <hr>
-                <div class="col-12 col-md-8 d-flex flex-column align-items-center">
-                    <div>
-                        <p th:text="${request.body}">Body</p>
-                    </div>
-
-                    <div class="d-flex">
-                        <form th:action="@{/operations/career/request/accept/{id}(id=${request.id})}" method="post">
-                            <button type="submit" class="btn btn-primary m-2">
-                                Accetta
-                            </button>
-                        </form>
-                        <a th:href="@{/admin/dashboard}" class="btn btn-primary m-2">
-                            Torna indietro
-                        </a>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <head th:insert="~{index :: footer}"></head>
+    <footer th:insert="~{index :: footer}"></footer>
     <script th:replace="~{index :: bootstrapScript}"></script>
 </body>
 </html>

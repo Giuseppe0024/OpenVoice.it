@@ -1,68 +1,128 @@
-<!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="~{index :: head}"></head>
-<body>
-    <head th:insert="~{index :: navbar}"></head>
+<body class="d-flex flex-column min-vh-100">
 
-    <div class="vh-100">
-        <div class="container">
-            <div class="row">
+    <!-- Fragment Navbar -->
+    <header th:insert="~{index :: navbar}"></header>
 
-                <div class="col-12 my-5 d-flex justify-content-between align-items-center">
-                    <div class="d-flex justify-content-center-align-items-center flex-grow-1">
-                        <h1 th:text="${title}">Inserisci un titolo</h1>
-                    </div>
-                </div>
-
-                <div class="col-12 my-5">
-                    <form th:action="@{/articles}" method="POST" th:object="${article}" enctype="multipart/form-data">
-                        <div class="row mb-3">
-                            <div class="col">
-                                <label for="articleTitle" class="form-label">Titolo</label>
-                                <input id="articleTitle" type="text" class="form-control" th:field="*{title}" placeholder="Inserisci un titolo...">
-                                <p th:errors = "*{title}" class="text-danger" th:if="${#fields.hasErrors('title')}"></p>
-                            </div>
-                            <div class="col">
-                                <label for="subtitle" class="form-label">Sottotitolo</label>
-                                <input id="subtitle" type="text" class="form-control" th:field="*{subtitle}" placeholder="Inserisci un sottotitolo...">
-                                <p th:errors = "*{subtitle}" class="text-danger" th:if="${#fields.hasErrors('subtitle')}"></p>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="body" class="form-label">Articolo:</label>
-                            <input id="body" type="text" class="form-control" th:field="*{body}" placeholder="Inserisci un testo..."> 
-                            <p th:errors="*{body}" class="text-danger" th:if="${#fields.hasErrors('body')}"></p>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="date" class="form-label">Data di pubblicazione (8 caratteri)</label>
-                            <input id="date" type="date" class="form-control" th:field="*{publishDate}" placeholder="ggmmaa">
-                            <p th:errors="*{publishDate}" class="text-danger" th:if="${#fields.hasErrors('publishDate')}"></p>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="category" class="form-label">Categoria</label>
-                            <select id="category" th:field="*{category}" class="form-select">
-                                <option th:each="category:${categories}" th:value="${category.id}" th:text="${category.name}"></option>
-                                <p th:errors = "*{category}" class="text-danger" th:if="${#fields.hasErrors('category')}"></p>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="image" class="form-label">Immagine</label>
-                            <input type="file" name="file" id="image" class="form-control">
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Crea articolo</button>
-                    </form>
-                </div>
-            </div>
+    <!-- Notifiche di Stato -->
+    <div class="container my-3">
+        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show border-0 shadow-sm d-flex align-items-center rounded-3" role="alert">
+            <i class="fa-solid fa-circle-xmark fs-5 me-2 text-danger"></i>
+            <div th:text="${errorMessage}"></div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
 
+    <!-- MAIN: Cornice e Showcase Desk Redazione -->
+    <main class="container my-4 flex-grow-1">
+        <div class="newsfeed-showcase-box box-writing">
+            <div class="newsfeed-inner-content">
+                
+                <!-- Intestazione Sezione -->
+                <div class="d-flex flex-wrap align-items-center justify-content-between newsfeed-header-divider gap-3">
+                    <div>
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <span class="newsfeed-section-badge">
+                                <i class="fa-solid fa-pen-nib me-1"></i> Desk Scrittura
+                            </span>
+                        </div>
+                        <h1 class="font-serif-brand fw-bold mb-1 newsfeed-heading-title">
+                            Nuova Pubblicazione
+                        </h1>
+                        <div class="newsfeed-heading-subtitle">
+                            Invia il tuo testo alla redazione per la revisione editoriale
+                        </div>
+                    </div>
 
-    <head th:insert="~{index :: footer}"></head>
-    <script th:replace="~{index :: bootstrapScript}"></script>
+                    <a th:href="@{/writer/dashboard}" class="btn btn-outline-light rounded-pill btn-sm px-3 fw-medium">
+                        <i class="fa-solid fa-arrow-left me-1"></i> Dashboard Autore
+                    </a>
+                </div>
+
+                <!-- Cornice Editoriale Form -->
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="editorial-frame-card">
+                            <form th:action="@{/articles}" method="post" th:object="${article}" enctype="multipart/form-data">
+    
+                                <div class="row g-4">
+                                    <!-- Titolo -->
+                                    <div class="col-12">
+                                        <label for="title" class="form-label-editorial">Titolo dell'Articolo *</label>
+                                        <input type="text" class="form-control form-control-lg" id="title" th:field="*{title}" placeholder="Un titolo incisivo e sintetico..." required>
+                                        <div class="field-error-text" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                                    </div>
+
+                                    <!-- Sottotitolo -->
+                                    <div class="col-12">
+                                        <label for="subtitle" class="form-label-editorial">Sottotitolo / Sommario *</label>
+                                        <input type="text" class="form-control" id="subtitle" th:field="*{subtitle}" placeholder="Breve introduzione alla notizia..." required>
+                                        <div class="field-error-text" th:if="${#fields.hasErrors('subtitle')}" th:errors="*{subtitle}"></div>
+                                    </div>
+
+                                    <!-- Rubrica / Categoria -->
+                                    <div class="col-md-6">
+                                        <label for="category" class="form-label-editorial">Rubrica *</label>
+                                        <select class="form-select" id="category" th:field="*{category}" required>
+                                            <option value="" disabled selected>Seleziona una rubrica</option>
+                                            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                                        </select>
+                                        <div class="field-error-text" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>
+                                    </div>
+
+                                    <!-- Data di Pubblicazione -->
+                                    <div class="col-md-6">
+                                        <label for="publishDate" class="form-label-editorial">Data di Pubblicazione *</label>
+                                        <input type="date" class="form-control" id="publishDate" th:field="*{publishDate}" required>
+                                        <div class="field-error-text" th:if="${#fields.hasErrors('publishDate')}" th:errors="*{publishDate}"></div>
+                                    </div>
+
+                                    <!-- Fotografia di Copertina (Sotto, larghezza 100%, protetta da overflow-hidden) -->
+                                    <div class="col-12">
+                                        <label class="form-label-editorial">Fotografia di Copertina</label>
+                                        <div class="file-upload-box p-3 text-center w-100 overflow-hidden rounded-3">
+                                            <input class="form-control" type="file" id="file" name="file" accept="image/*">
+                                            <div class="small text-muted my-2">Supportati: JPG, PNG, WebP</div>
+                                            
+                                            <!-- Box di contenimento per l'anteprima -->
+                                            <div class="w-100 overflow-hidden d-flex justify-content-center">
+                                                <div id="imagePreviewContainer" class="w-100 overflow-hidden"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Testo Articolo -->
+                                    <div class="col-12">
+                                        <label for="body" class="form-label-editorial">Corpo del Testo *</label>
+                                        <textarea class="form-control" id="body" th:field="*{body}" rows="12" placeholder="Scrivi il corpo completo dell'articolo..." required></textarea>
+                                        <div class="field-error-text" th:if="${#fields.hasErrors('body')}" th:errors="*{body}"></div>
+                                    </div>
+
+                                    <!-- Azioni -->
+                                    <div class="col-12 pt-3 border-top d-flex justify-content-between align-items-center">
+                                        <a th:href="@{/articles}" class="btn btn-outline-secondary rounded-pill px-4">Annulla</a>
+                                        <button type="submit" class="btn btn-editorial-primary px-5 py-2">
+                                            <i class="fa-solid fa-paper-plane me-2"></i> Invia alla Revisione
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Fragment Footer -->
+    <footer th:insert="~{index :: footer}"></footer>
+
+    <!-- Bootstrap Bundle JS & main.js -->
+    <div th:replace="~{index :: bootstrapScript}"></div>
+
 </body>
 </html>
