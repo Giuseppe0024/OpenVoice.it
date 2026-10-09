@@ -107,6 +107,7 @@ public class CategoryController {
     }
 
     //Rotta per la cancellazione di una categoria
+    @GetMapping("/delete/{id}")
     public String categoryDelete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
 
         categoryService.delete(id);
