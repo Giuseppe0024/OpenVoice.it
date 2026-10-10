@@ -60,6 +60,7 @@ public class ArticleService implements CrudService<ArticleDto, Article, Long>{
     public ArticleDto create(Article article, Principal principal, MultipartFile file) {
         String url = "";
 
+        //Recupero l'utente corrente tramite il SecurityContext
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication != null) {
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -67,6 +68,7 @@ public class ArticleService implements CrudService<ArticleDto, Article, Long>{
             article.setUser(user);
         }
 
+        //Caricamento asincrono dell'immagine su Cloud
         if(!file.isEmpty()){
             try {
                 CompletableFuture<String> futureUrl = imageService.saveImageOnCloud(file);
@@ -76,7 +78,7 @@ public class ArticleService implements CrudService<ArticleDto, Article, Long>{
             }
         }
 
-        article.setIsAccepted(null);
+        article.setIsAccepted(null); //In attesa di revisione
 
         ArticleDto dto = modelMapper.map(articleRepository.save(article), ArticleDto.class);
 
